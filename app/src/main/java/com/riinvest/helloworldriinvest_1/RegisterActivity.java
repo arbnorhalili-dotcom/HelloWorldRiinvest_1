@@ -16,6 +16,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister;
     EditText etName, etSurname, etEmail, etPassword;
     SQLiteDatabase objDb;
+    String strError = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,15 +35,19 @@ public class RegisterActivity extends AppCompatActivity {
                 if(CreateUser(etName.getText().toString(),etSurname.getText().toString(),
                         etEmail.getText().toString(),etPassword.getText().toString())==true) {
 
-                    Intent intent = new Intent(RegisterActivity.this,
-                            LoginActivitiy.class);
-                    startActivity(intent);
-
+//                    Intent intent = new Intent(RegisterActivity.this,
+//                            LoginActivitiy.class);
+//                    startActivity(intent);
+                    Toast.makeText(RegisterActivity.this,
+                            "Regjistrimi i perdoruesit u be me sukses!",
+                            Toast.LENGTH_SHORT).show();
+                    onBackPressed();
                 }
                 else
                 {
                     Toast.makeText(RegisterActivity.this,
-                            "Regjistrimi i perdoruesit deshtoi!",
+                            "Regjistrimi i perdoruesit deshtoi!\n\n"+
+                            strError,
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -55,8 +60,15 @@ public class RegisterActivity extends AppCompatActivity {
         cv.put("Surname", surname);
         cv.put("Email", email);
         cv.put("Password", password);
-        long result = objDb.insert("Users",null, cv);
 
-        return result>0?true:false;
+        try {
+            objDb.insertOrThrow("Users",null, cv);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            strError = ex.getMessage();
+            return false;
+        }
     }
 }

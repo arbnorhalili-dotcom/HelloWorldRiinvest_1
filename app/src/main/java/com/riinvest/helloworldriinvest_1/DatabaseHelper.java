@@ -1,5 +1,6 @@
 package com.riinvest.helloworldriinvest_1;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,7 +9,8 @@ import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
-        super(context, "RiinvestDB", null, 1);
+        super(context,
+                "RiinvestDB", null, 4);
     }
 
     @Override
@@ -23,7 +25,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+//        ContentValues cv = new ContentValues();
+//        cv.put("Name", "Filan");
+//        cv.put("Surname", "Fisteku");
+//        cv.put("Email", "filan@gmail.com");
+//        cv.put("Password", "123");
+//
+//        sqLiteDatabase.insert("Users", null, cv);
+        sqLiteDatabase.execSQL("CREATE UNIQUE INDEX ux_username ON Users(Email);");
     }
 }
 

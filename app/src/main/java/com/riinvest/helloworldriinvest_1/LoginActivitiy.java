@@ -2,6 +2,7 @@ package com.riinvest.helloworldriinvest_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ public class LoginActivitiy extends AppCompatActivity {
     Button btnLogin;
     EditText etUsername, etPassword;
     SQLiteDatabase objDb;
+    String strName = "", strSurname = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,11 @@ public class LoginActivitiy extends AppCompatActivity {
                     Toast.makeText(LoginActivitiy.this,
                             "Kredencialet jane ne rregull.",
                             Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivitiy.this, MainActivity.class);
+                    intent.putExtra("username", strUsername);
+                    intent.putExtra("name", strName);
+                    intent.putExtra("surname", strSurname);
+                    startActivity(intent);
                 }
                 else
                 {
@@ -55,7 +62,7 @@ public class LoginActivitiy extends AppCompatActivity {
     private boolean CheckCredentials(String email, String password)
     {
         Cursor c = objDb.query("Users",
-                new String[]{"Id", "Email", "Password"},
+                new String[]{"Id", "Email", "Password", "Name", "Surname"},
                 "Email=?",
                 new String[]{email},
                 "",
@@ -65,8 +72,11 @@ public class LoginActivitiy extends AppCompatActivity {
         {
             c.moveToFirst();
             String strUserPasswordDb = c.getString(2);
-            if(password.equals(strUserPasswordDb))
+            if(password.equals(strUserPasswordDb)) {
+                strName = c.getString(3);
+                strSurname = c.getString(4);
                 return true;
+            }
             else
                 return false;
         }

@@ -12,10 +12,10 @@
         android:theme="@style/Theme.HelloWorldRiinvest_1"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivitiy"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".LoginActivitiy"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
