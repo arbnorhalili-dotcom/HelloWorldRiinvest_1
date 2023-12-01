@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">HelloWorldRiinvest_1</string>
     <string name="et_name_hint">Name</string>
-    <string name="et_surname_hint">Surname</string>
+    <string name="et_surname_hint">Nachname</string>
     <string name="et_email_hint">Email</string>
-    <string name="et_password_hint">Password</string>
+    <string name="et_password_hint">Passwort</string>
     <string name="btn_register">Register</string>
 </resources>
