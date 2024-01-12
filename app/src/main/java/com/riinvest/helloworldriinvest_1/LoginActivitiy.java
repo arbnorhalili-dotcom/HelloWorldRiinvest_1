@@ -3,6 +3,7 @@ package com.riinvest.helloworldriinvest_1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,6 +22,18 @@ public class LoginActivitiy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
+        String[] sharedPrefsArray = ReadSharedPreferences();
+        if(sharedPrefsArray[0].length()>0)
+        {
+            Intent intent = new Intent(LoginActivitiy.this, MainActivity.class);
+            intent.putExtra("username", sharedPrefsArray[0]);
+            intent.putExtra("name", sharedPrefsArray[1]);
+            intent.putExtra("surname", sharedPrefsArray[2]);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
 
         objDb = (new DatabaseHelper(LoginActivitiy.this)).getReadableDatabase();
 
@@ -47,6 +60,9 @@ public class LoginActivitiy extends AppCompatActivity {
                     intent.putExtra("username", strUsername);
                     intent.putExtra("name", strName);
                     intent.putExtra("surname", strSurname);
+                    WriteSharedPreferences(strUsername, strName, strSurname);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
                 else
@@ -84,5 +100,30 @@ public class LoginActivitiy extends AppCompatActivity {
         {
             return false;
         }
+    }
+
+    private void WriteSharedPreferences(String strUsername, String strName, String strSurname)
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "RiinvestApp", MODE_PRIVATE
+        );
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Username", strUsername);
+        editor.putString("Name", strName);
+        editor.putString("Surname", strSurname);
+        editor.commit();
+    }
+
+    private String[] ReadSharedPreferences()
+    {
+        String[] strResponse = new String[3];
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "RiinvestApp", MODE_PRIVATE
+        );
+        strResponse[0] = sharedPreferences.getString("Username","");
+        strResponse[1] = sharedPreferences.getString("Name", "");
+        strResponse[2] = sharedPreferences.getString("Surname", "");
+
+        return strResponse;
     }
 }
