@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                          Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+            case R.id.universitiesMenu:
+                intent = new Intent(MainActivity.this, UniversitiesActivity.class);
+                startActivity(intent);
         }
         return true;
     }
