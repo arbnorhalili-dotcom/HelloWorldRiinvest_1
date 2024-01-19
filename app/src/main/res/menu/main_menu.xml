@@ -5,6 +5,8 @@
         android:title="Add user"></item>
     <item android:id="@+id/universitiesMenu"
         android:title="Universitetet"></item>
+    <item android:id="@+id/onlineRadio"
+        android:title="Online Radio"></item>
     <item android:id="@+id/logout"
         android:title="Logout"></item>
 </menu>

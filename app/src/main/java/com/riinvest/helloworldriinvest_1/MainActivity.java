@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.universitiesMenu:
                 intent = new Intent(MainActivity.this, UniversitiesActivity.class);
                 startActivity(intent);
+            case R.id.onlineRadio:
+                intent = new Intent(MainActivity.this, OnlineRadioActivity.class);
+                startActivity(intent);
         }
         return true;
     }
