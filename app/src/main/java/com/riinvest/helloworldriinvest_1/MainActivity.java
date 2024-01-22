@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,10 +29,18 @@ public class MainActivity extends AppCompatActivity {
     String strName = "", strSurname = "";
     ListView lvUsers;
     UsersAdapter usersAdapter;
+    AirplaneModeChangeReceiver receiver = new AirplaneModeChangeReceiver();
+    WiFiModeChangeReceiver wifiReceiver = new WiFiModeChangeReceiver();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(receiver, intentFilter);
+
+        intentFilter = new IntentFilter(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        registerReceiver(wifiReceiver, intentFilter);
 
         lvUsers = findViewById(R.id.lvUsers);
 

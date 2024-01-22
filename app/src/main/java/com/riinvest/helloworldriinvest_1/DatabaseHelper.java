@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context,
-                "RiinvestDB", null, 4);
+                "RiinvestDB", null, 5);
     }
 
     @Override
@@ -21,6 +21,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Users.Surname + " text," +
                 "Email text,"+
                 "Password text)");
+
+        ContentValues cv = new ContentValues();
+        cv.put("Name", "Filan");
+        cv.put("Surname", "Fisteku");
+        cv.put("Email", "filan@gmail.com");
+        cv.put("Password", "123");
+
+        sqLiteDatabase.insert("Users", null, cv);
     }
 
     @Override
@@ -32,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        cv.put("Password", "123");
 //
 //        sqLiteDatabase.insert("Users", null, cv);
-        sqLiteDatabase.execSQL("CREATE UNIQUE INDEX ux_username ON Users(Email);");
+        //sqLiteDatabase.execSQL("CREATE UNIQUE INDEX ux_username ON Users(Email);");
     }
 }
 
