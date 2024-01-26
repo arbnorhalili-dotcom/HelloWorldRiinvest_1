@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -47,7 +48,21 @@ public class MainActivity extends AppCompatActivity {
         usersAdapter = new UsersAdapter(MainActivity.this);
 
         lvUsers.setAdapter(usersAdapter);
-        LoadUsersFromDb();
+
+        new LoadDataAsync().execute();
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                LoadUsersFromDb();
+//            }
+//        };
+//        Thread th = new Thread(runnable);
+//        th.start();
 
         lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -155,7 +170,12 @@ public class MainActivity extends AppCompatActivity {
             }
             cursor.close();
 
-            usersAdapter.notifyDataSetChanged();
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    usersAdapter.notifyDataSetChanged();
+//                }
+//            });
         }
     }
 
@@ -164,5 +184,25 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //usersAdapter = new UsersAdapter(MainActivity.this);
         //LoadUsersFromDb();
+    }
+
+    public class LoadDataAsync extends AsyncTask<Void,Void,Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            LoadUsersFromDb();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            usersAdapter.notifyDataSetChanged();
+        }
     }
 }
